@@ -85,7 +85,7 @@ resource "azurerm_app_service" "api" {
 }
 
 resource "azurerm_role_assignment" "rbac_api_cosmos" {
-  scope = azurerm_cosmosdb_account.cosmos_account.id
+  scope                = azurerm_cosmosdb_account.cosmos_account.id
   role_definition_name = "Cosmos DB Account Reader Role"
-  principal_id = azurerm_app_service.api.identity.0.principal_id
+  principal_id         = azurerm_app_service.api.identity.0.principal_id
 }
