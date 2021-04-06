@@ -55,6 +55,12 @@ resource "azurerm_cosmosdb_sql_container" "cosmos_cheeses" {
   database_name       = azurerm_cosmosdb_sql_database.cosmos_database.name
 }
 
+resource "null_resource" "call_python_script" {
+  provisioner "local-exec" {
+    command = "pip3 install azure-cosmos; python3 ${path.module}/load-data.py --url ${azurerm_cosmosdb_account.cosmos_account.endpoint} --key ${azurerm_cosmosdb_account.cosmos_account.primary_key} --database ${azurerm_cosmosdb_sql_database.cosmos_database.name}"
+  }
+}
+
 resource "azurerm_app_service_plan" "plan" {
   name                = "plan-${var.project}"
   location            = var.location
