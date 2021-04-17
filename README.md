@@ -16,7 +16,7 @@ Here is a summary of what is done and what is next:
 ✔ Grant access to Cosmos DB to the API using TF  
 ✔ Run Python script to import data in Cosmos DB from TF  
 ✔ Import departments with Python script  
-❌ Import cheeses with Python script  
+✔ Import cheeses with Python script  
 ❌ Define API routes  
 ❌ Build API to expose data  
 ❌ Write Health Checks  

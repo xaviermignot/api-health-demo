@@ -5,7 +5,8 @@ import argparse
 from azure.cosmos import CosmosClient
 
 
-parser = argparse.ArgumentParser(description='Parse cheese json file to populate CosmosDb')
+parser = argparse.ArgumentParser(
+    description='Parse cheese json file to populate CosmosDb')
 parser.add_argument('--url', help='The CosmosDb account URI')
 parser.add_argument('--key', help='The CosmosDb account key')
 parser.add_argument('--database', help='The CosmosDb database name')
@@ -28,13 +29,14 @@ cosmos_departments_container = cosmos_db_client.get_container_client(
 departments = {}
 for jsonElement in jsonDoc:
     departmentName = jsonElement['fields']['departement']
+
     if departmentName not in departments:
         print(f'Importing deparment {departmentName}...')
-        departmentId = str(uuid.uuid4())
-        departments[departmentName] = departmentId
+        newDepartmentId = str(uuid.uuid4())
+        departments[departmentName] = newDepartmentId
 
         departmentDoc = {
-            'id': departmentId,
+            'id': newDepartmentId,
             'name': departmentName
         }
 
@@ -44,3 +46,24 @@ for jsonElement in jsonDoc:
             departmentDoc['geo_shape'] = jsonElement['fields']['geo_shape']
 
         cosmos_departments_container.upsert_item(departmentDoc)
+
+    departmentId = departments[departmentName]
+    cheeseId = str(uuid.uuid4())
+    cheeseName = jsonElement['fields']['fromage']
+    print(f'Importing chees {cheeseName}...')
+
+    cheeseDoc = {
+        'id': cheeseId,
+        'departmentId': departmentId,
+        'name': cheeseName
+    }
+
+    if 'lait' in jsonElement['fields']:
+        cheeseDoc['milk'] = jsonElement['fields']['lait']
+    if 'english_page' in jsonElement['fields']:
+        cheeseDoc['wikiEn'] = jsonElement['fields']['english_page']
+    if 'page_francaise' in jsonElement['fields']:
+        cheeseDoc['wikiFr'] = jsonElement['fields']['page_francaise']
+    
+
+    cosmos_cheeses_container.upsert_item(cheeseDoc)
