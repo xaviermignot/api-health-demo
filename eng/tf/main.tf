@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "2.51.0"
+      version = "2.56.0"
     }
   }
 }
@@ -56,6 +56,11 @@ resource "azurerm_cosmosdb_sql_container" "cosmos_cheeses" {
 }
 
 resource "null_resource" "call_python_script" {
+  depends_on = [
+    azurerm_cosmosdb_sql_container.cosmos_deparments,
+    azurerm_cosmosdb_sql_container.cosmos_cheeses
+  ]
+
   provisioner "local-exec" {
     command = "pip3 install azure-cosmos; python3 ${path.module}/load-data.py --url ${azurerm_cosmosdb_account.cosmos_account.endpoint} --key ${azurerm_cosmosdb_account.cosmos_account.primary_key} --database ${azurerm_cosmosdb_sql_database.cosmos_database.name}"
   }
