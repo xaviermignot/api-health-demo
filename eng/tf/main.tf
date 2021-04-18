@@ -62,7 +62,7 @@ resource "null_resource" "call_python_script" {
   ]
 
   provisioner "local-exec" {
-    command = "pip3 install azure-cosmos; python3 ${path.module}/load-data.py --url ${azurerm_cosmosdb_account.cosmos_account.endpoint} --key ${azurerm_cosmosdb_account.cosmos_account.primary_key} --database ${azurerm_cosmosdb_sql_database.cosmos_database.name}"
+    command = "pip3 install azure-cosmos;pip3 install unidecode; python3 ${path.module}/load-data.py --url ${azurerm_cosmosdb_account.cosmos_account.endpoint} --key ${azurerm_cosmosdb_account.cosmos_account.primary_key} --database ${azurerm_cosmosdb_sql_database.cosmos_database.name}"
   }
 }
 
