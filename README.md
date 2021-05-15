@@ -29,7 +29,7 @@ Currently only the Terraform part of the project is testable. To get started wit
 - Install Terraform, see tutorial [here](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/azure-get-started)
 - Optional if you want to use Terraform Cloud as I do, you need to configure the Terraform backend:
   - Create a `backend.tf` in the `eng/tf` folder. This file is git-ignored as it contains the organization and the workspace name of my Terraform Cloud account.
-  - If you plan to use Terraform Cloud the content of the `backend.tf` file will look like this:
+  - If you plan to use Terraform Cloud the content of the `tf-backend.tf` file will look like this:
 ```hcl
 terraform {
   backend "remote" {

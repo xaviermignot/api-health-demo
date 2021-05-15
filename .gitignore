@@ -6,6 +6,6 @@ terraform.tfstate*
 
 # backend.tf contains backend configuration (tf cloud org & workspace)
 # so it should not be pushed to the repo
-eng/tf/backend.tf
+eng/tf/tf-backend.tf
 
 *:Zone.Identifier
