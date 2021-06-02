@@ -25,6 +25,10 @@ resource "azurerm_app_service" "api" {
   site_config {
     dotnet_framework_version = "v5.0"
   }
+
+  app_settings = {
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.ai.instrumentation_key
+  }
 }
 
 resource "azurerm_role_assignment" "rbac_api_cosmos" {
