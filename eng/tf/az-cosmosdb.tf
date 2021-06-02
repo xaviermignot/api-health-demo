@@ -28,6 +28,7 @@ resource "azurerm_cosmosdb_sql_container" "cosmos_deparments" {
   resource_group_name = azurerm_resource_group.rg.name
   account_name        = azurerm_cosmosdb_account.cosmos_account.name
   database_name       = azurerm_cosmosdb_sql_database.cosmos_database.name
+  partition_key_path  = "/id"
 }
 
 resource "azurerm_cosmosdb_sql_container" "cosmos_cheeses" {
@@ -35,6 +36,7 @@ resource "azurerm_cosmosdb_sql_container" "cosmos_cheeses" {
   resource_group_name = azurerm_resource_group.rg.name
   account_name        = azurerm_cosmosdb_account.cosmos_account.name
   database_name       = azurerm_cosmosdb_sql_database.cosmos_database.name
+  partition_key_path  = "/id"
 }
 
 resource "null_resource" "call_python_script" {
