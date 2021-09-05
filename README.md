@@ -36,12 +36,12 @@ terraform {
     organization = "<YOUR ORGANIZATION NAME>"
 
     workspaces {
-      name = "<YOU WORKSPACE NAME>"
+      name = "<YOUR WORKSPACE NAME>"
     }
   }
 }
 ```
 - If you want Terraform to operate locally, there is no need to configure anything, the local backend will be used by default
-- Run `terraform init`
-- Run `terraform plan`
-- Run `terraform apply` 
+  - Run `terraform init`
+  - Run `terraform plan`
+  - Run `terraform apply` 
