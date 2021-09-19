@@ -24,6 +24,7 @@ resource "azurerm_app_service" "api" {
 
   site_config {
     dotnet_framework_version = "v5.0"
+    linux_fx_version         = "DOTNETCORE|5.0"
   }
 
   app_settings = {
