@@ -1,5 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<ICheeseService, CheeseService>();
+builder.Services.AddTransient<IDepartmentService, DepartmentService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -17,6 +20,20 @@ if (app.Environment.IsDevelopment())
 app.MapGet("/api/cheeses", () => Results.Ok(new List<Cheese>()))
     .Produces<IEnumerable<Cheese>>(200);
 
+app.MapGet(
+    "/api/cheeses/{id}", 
+    (string id, ICheeseService svc) => Results.Ok(svc.GetCheese(id)))
+    .Produces<Cheese>(200);
+
+app.MapGet("/api/departments", () => Results.Ok(new List<Department>()))
+    .Produces<IEnumerable<Department>>(200);
+
+app.MapGet(
+    "/api/departments/{id}", 
+    (string id, IDepartmentService svc) => Results.Ok(svc.GetDepartment(id)))
+    .Produces<Department>(200);
+    
 app.Run();
 
-record Cheese(string Name, string Milk);
+public record Department(string Name);
+public record Cheese(string Name, string Milk, Department department);
