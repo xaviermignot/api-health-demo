@@ -1,7 +1,14 @@
+using Azure.Identity;
+using Microsoft.Azure.Cosmos;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<ICheeseService, CheeseService>();
 builder.Services.AddTransient<IDepartmentService, DepartmentService>();
+
+var credential = new DefaultAzureCredential();
+var cosmosClient = new CosmosClient(builder.Configuration["CosmosDb:AccountEndpoint"], credential);
+builder.Services.AddSingleton<CosmosClient>(cosmosClient);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -17,7 +24,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{builder.Environment.ApplicationName} v1"));
 }
 
-app.MapGet("/api/cheeses", () => Results.Ok(new List<Cheese>()))
+app.MapGet("/api/cheeses", (ICheeseService svc) => Results.Ok(svc.GetCheeses()))
     .Produces<IEnumerable<Cheese>>(200);
 
 app.MapGet(
@@ -25,7 +32,7 @@ app.MapGet(
     (string id, ICheeseService svc) => Results.Ok(svc.GetCheese(id)))
     .Produces<Cheese>(200);
 
-app.MapGet("/api/departments", () => Results.Ok(new List<Department>()))
+app.MapGet("/api/departments", (IDepartmentService svc) => Results.Ok(svc.GetDepartments()))
     .Produces<IEnumerable<Department>>(200);
 
 app.MapGet(
